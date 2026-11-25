@@ -25,7 +25,7 @@ const LOCATIONS = [
     legendary: { id: 144, level: 50 }, desc: 'Icy caves between the currents.', trainers: ['Swimmer', 'Swimmer', 'Cool Trainer'] },
   { id: 'cinnabar', name: 'Cinnabar Mansion', badges: 7, levels: [32, 42], types: ['Fire', 'Poison', 'Normal'], cap: 540, minBst: 300,
     extra: [139, 141, 142], desc: 'A burned-out lab. Revived fossils roam the halls.', trainers: ['Burglar', 'Scientist', 'Scientist'] },
-  { id: 'victory', name: 'Victory Road', badges: 8, levels: [40, 50], types: ['Rock', 'Ground', 'Fighting', 'Poison', 'Dragon'], cap: 600, minBst: 380,
+  { id: 'victory', name: 'Victory Road', badges: 8, levels: [44, 54], types: ['Rock', 'Ground', 'Fighting', 'Poison', 'Dragon'], cap: 600, minBst: 380,
     legendary: { id: 146, level: 50 }, desc: 'The final test before the Pokémon League.', trainers: ['Cool Trainer', 'Cool Trainer', 'Black Belt', 'Juggler'] },
   { id: 'ceruleancave', name: 'Cerulean Cave', badges: 8, champion: true, levels: [50, 65], types: null, cap: 999, minBst: 420,
     legendary: { id: 150, level: 70 }, legendary2: { id: 151, level: 60 },
@@ -37,12 +37,12 @@ const TRAINER_NAMES = ['Joey', 'Ben', 'Iris', 'Rick', 'Dana', 'Kent', 'Robin', '
 
 // Gym leaders: [speciesId, level] teams. Gym n requires n earlier badges.
 const GYMS = [
-  { leader: 'Brock', city: 'Pewter City', type: 'Rock', badge: 'Boulder Badge', team: [[74, 12], [95, 14]] },
-  { leader: 'Misty', city: 'Cerulean City', type: 'Water', badge: 'Cascade Badge', team: [[120, 18], [121, 21]] },
+  { leader: 'Brock', city: 'Pewter City', type: 'Rock', badge: 'Boulder Badge', team: [[74, 11], [95, 13]] },
+  { leader: 'Misty', city: 'Cerulean City', type: 'Water', badge: 'Cascade Badge', team: [[120, 18], [121, 20]] },
   { leader: 'Lt. Surge', city: 'Vermilion City', type: 'Electric', badge: 'Thunder Badge', team: [[100, 21], [25, 18], [26, 24]] },
   { leader: 'Erika', city: 'Celadon City', type: 'Grass', badge: 'Rainbow Badge', team: [[71, 29], [114, 24], [45, 29]] },
-  { leader: 'Koga', city: 'Fuchsia City', type: 'Poison', badge: 'Soul Badge', team: [[109, 37], [89, 39], [109, 37], [110, 43]] },
-  { leader: 'Sabrina', city: 'Saffron City', type: 'Psychic', badge: 'Marsh Badge', team: [[64, 38], [122, 37], [49, 38], [65, 43]] },
+  { leader: 'Koga', city: 'Fuchsia City', type: 'Poison', badge: 'Soul Badge', team: [[109, 33], [89, 35], [109, 33], [110, 38]] },
+  { leader: 'Sabrina', city: 'Saffron City', type: 'Psychic', badge: 'Marsh Badge', team: [[64, 36], [122, 36], [49, 37], [65, 40]] },
   { leader: 'Blaine', city: 'Cinnabar Island', type: 'Fire', badge: 'Volcano Badge', team: [[58, 42], [77, 40], [78, 42], [59, 47]] },
   { leader: 'Giovanni', city: 'Viridian City', type: 'Ground', badge: 'Earth Badge', team: [[111, 45], [51, 42], [31, 44], [34, 45], [112, 50]] },
 ];

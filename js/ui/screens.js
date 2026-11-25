@@ -131,7 +131,7 @@ function gymsTab() {
   const leagueOpen = S.badges >= 8;
   return `<div class="gyms">${gyms}</div>
     <div class="league-card ${leagueOpen ? 'open' : ''}">
-      <div><h3>Pokémon League</h3><p class="muted">Face the Elite Four — ${ELITE_FOUR.map((e) => e.leader).join(', ')} — and then the Champion, back to back. No healing between battles, but you can use items.</p></div>
+      <div><h3>Pokémon League</h3><p class="muted">Face the Elite Four — ${ELITE_FOUR.map((e) => e.leader).join(', ')} — and then the Champion, back to back. Your team is healed between battles, but losing any battle sends you back to the start.</p></div>
       ${leagueOpen ? `<button class="btn primary big" data-act="league">${S.champion ? 'Defend your title' : 'Enter the League'}</button>` : `<span class="muted">🔒 Needs all 8 badges</span>`}
     </div>`;
 }
@@ -289,7 +289,7 @@ const ACT = {
     if (firstAlive() < 0) { toast('Heal your Pokémon before challenging a gym!'); return; }
     const maxLv = Math.max(...g.team.map((x) => x[1]));
     startBattle({
-      kind: 'trainer', enemy: buildTeam(g.team, true), bg: 'gym',
+      kind: 'trainer', enemy: buildTeam(g.team, i >= 4), bg: 'gym',
       trainer: { title: `Leader ${g.leader}`, reward: maxLv * 100, intro: `${g.city} Gym Leader ${g.leader} wants to battle!` },
       async onEnd(result) {
         if (result !== 'win') return false;
@@ -308,7 +308,7 @@ const ACT = {
 
   async league() {
     if (firstAlive() < 0) { toast('Heal your Pokémon first!'); return; }
-    const ok = await confirmModal('Enter the Pokémon League?', '<p>You will face 5 trainers in a row with no chance to heal at the Pokémon Center. Items still work.</p>', 'Let\'s go!', 'Not yet');
+    const ok = await confirmModal('Enter the Pokémon League?', '<p>You will face 5 trainers in a row. Your team is healed between battles, but one loss and you start over.</p>', 'Let\'s go!', 'Not yet');
     if (ok) leagueBattle(0);
   },
 
@@ -373,7 +373,7 @@ function leagueBattle(stage) {
   const foe = isChamp ? { leader: 'Blue', team: championTeam(S.starter) } : ELITE_FOUR[stage];
   const maxLv = Math.max(...foe.team.map((x) => x[1]));
   startBattle({
-    kind: 'trainer', enemy: buildTeam(foe.team, true), bg: 'league',
+    kind: 'trainer', enemy: buildTeam(foe.team), bg: 'league',
     trainer: {
       title: isChamp ? 'Champion Blue' : `Elite Four ${foe.leader}`,
       reward: maxLv * (isChamp ? 200 : 120),
@@ -382,12 +382,12 @@ function leagueBattle(stage) {
     async onEnd(result) {
       if (result !== 'win') return false;
       if (!isChamp) {
+        S.party.forEach(healMon);
+        saveGame();
         ui.screen = 'hub'; render();
         const next = stage + 1 === ELITE_FOUR.length ? 'the Champion' : `Elite Four ${ELITE_FOUR[stage + 1].leader}`;
-        const party = S.party.map((m) => `<div class="pick">${spriteImg(m.id, { cls: 'mini' })}<span><b>${monName(m)}</b><br>${hpBar(m.hp, m.stats.hp)}<small>HP ${m.hp}/${m.stats.hp}</small></span></div>`).join('');
-        await modal({ title: `${foe.leader} defeated!`, body: `<p>Next up: <b>${next}</b>. Your team stays as it is.</p><div class="pick-list">${party}</div>`,
+        await modal({ title: `${foe.leader} defeated!`, body: `<p>Your team rests and is fully healed.</p><p>Next up: <b>${next}</b>.</p>`,
           buttons: [{ label: 'Continue', value: true, cls: 'primary' }] });
-        if (firstAlive() < 0) return false;
         leagueBattle(stage + 1);
         return true;
       }

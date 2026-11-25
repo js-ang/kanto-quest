@@ -215,7 +215,12 @@ const LEARNSET_OVERRIDES = {
   14: [[1, 'poisonsting'], [1, 'harden']],
   129: [[1, 'splash'], [15, 'tackle']],
   132: [[1, 'transform']],
-  150: null, // generated, plus Psystrike below
+};
+
+// Extra moves added on top of a generated learnset.
+const EXTRA_MOVES = {
+  4: [[10, 'metalclaw']], 5: [[10, 'metalclaw']], 6: [[10, 'metalclaw']], // Charmander line: answer to Brock, as in FireRed
+  150: [[60, 'psystrike']],
 };
 
 const TIER_LEVELS = [7, 18, 30, 44];
@@ -250,7 +255,7 @@ function learnsetOf(id) {
   } else {
     addType('Normal', 0, [1, 2], [22, 36]);
   }
-  if (id === 150) list.push([60, 'psystrike']);
+  for (const extra of EXTRA_MOVES[id] || []) list.push(extra);
   // Sort and drop duplicates, keeping the earliest level.
   list.sort((a, b2) => a[0] - b2[0]);
   const seen = new Set();
