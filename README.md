@@ -3,7 +3,9 @@
 A turn-based Pokémon game in the browser with all 151 Kanto Pokémon.
 
 ## Play
-Open `index.html` in a browser. You need an internet connection, because sprites load from PokeAPI and the fonts come from Google Fonts. Progress saves automatically to your browser's localStorage.
+**Play online: https://js-ang.github.io/kanto-quest/**
+
+Or open `index.html` in a browser. You need an internet connection, because sprites load from PokeAPI and the fonts come from Google Fonts. Progress saves automatically to your browser's localStorage.
 
 ## Features
 - All 151 Kanto Pokémon with real base stats, types and evolutions (by level, by stone, and by level 36–40 for the four trade evolutions)
