@@ -202,6 +202,8 @@ function rarityOf(p) {
   return 'Very Rare';
 }
 
+// FireRed/LeafGreen sprites from the PokeAPI sprite repository.
+const SPRITE_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/';
 function spriteUrl(id, back) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${back ? 'back/' : ''}${id}.png`;
+  return `${SPRITE_BASE}${back ? 'back/' : ''}${id}.png`;
 }

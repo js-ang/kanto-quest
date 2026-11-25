@@ -278,7 +278,7 @@ const ACT = {
     const title = `${t.cls} ${t.name}`;
     startBattle({
       kind: 'trainer', enemy: buildTeam(t.team), bg: loc.id,
-      trainer: { title, reward: Math.floor(maxLv * 30 * (rematch ? 0.5 : 1)) },
+      trainer: { title, sprite: trainerSpriteUrl(t.cls), reward: Math.floor(maxLv * 30 * (rematch ? 0.5 : 1)) },
       onEnd(result) { if (result === 'win') S.beaten[t.key] = 1; saveGame(); return false; },
     });
   },
@@ -290,7 +290,7 @@ const ACT = {
     const maxLv = Math.max(...g.team.map((x) => x[1]));
     startBattle({
       kind: 'trainer', enemy: buildTeam(g.team, i >= 4), bg: 'gym',
-      trainer: { title: `Leader ${g.leader}`, reward: maxLv * 100, intro: `${g.city} Gym Leader ${g.leader} wants to battle!` },
+      trainer: { title: `Leader ${g.leader}`, sprite: trainerSpriteUrl(g.leader), reward: maxLv * 100, intro: `${g.city} Gym Leader ${g.leader} wants to battle!` },
       async onEnd(result) {
         if (result !== 'win') return false;
         S.badges = Math.max(S.badges, i + 1);
@@ -376,6 +376,7 @@ function leagueBattle(stage) {
     kind: 'trainer', enemy: buildTeam(foe.team), bg: 'league',
     trainer: {
       title: isChamp ? 'Champion Blue' : `Elite Four ${foe.leader}`,
+      sprite: trainerSpriteUrl(foe.leader),
       reward: maxLv * (isChamp ? 200 : 120),
       intro: isChamp ? 'Your rival Blue is the Champion! "I\'ve been waiting for you. Let\'s settle this!"' : `Elite Four ${foe.leader} wants to battle!`,
     },

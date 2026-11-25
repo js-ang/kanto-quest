@@ -16,6 +16,7 @@ Or open `index.html` in a browser. You need an internet connection, because spri
 - Catching with Poké, Great, Ultra and Master Balls. Strong Pokémon have lower catch rates.
 - Route trainers, 8 gym leaders, the Elite Four, and the Champion
 - XP and leveling, move learning, a move reminder, Pokédex, PC storage and a Poké Mart
+- FireRed-style battle scenes: Gen 3 sprites, drawn backdrops for each area, trainer intros, Poké Ball send-outs and catches, and type-based move effects
 
 ## Code layout
 - `js/data/`: type chart, Pokémon, moves and learnset generator, world data (locations, gyms, items)

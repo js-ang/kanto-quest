@@ -79,3 +79,20 @@ const ITEMS = {
 };
 const SHOP_ORDER = ['pokeball', 'greatball', 'ultraball', 'potion', 'superpotion', 'hyperpotion', 'fullheal', 'revive',
   'firestone', 'waterstone', 'thunderstone', 'leafstone', 'moonstone'];
+
+// Gen 3 trainer sprites (Pokémon Showdown's sprite set), by trainer class or leader name.
+const TRAINER_SPRITES = {
+  'Youngster': 'youngster-gen3', 'Lass': 'lass-gen3', 'Bug Catcher': 'bugcatcher-gen3', 'Hiker': 'hiker-gen3',
+  'Super Nerd': 'supernerd-gen3', 'Camper': 'camper-gen3', 'Picnicker': 'picnicker-gen3', 'Black Belt': 'blackbelt-gen3',
+  'Fisherman': 'fisherman-gen3', 'Swimmer': 'swimmer', 'Sailor': 'sailor-gen3', 'Gambler': 'gambler', 'Beauty': 'beauty-gen3',
+  'Biker': 'biker-gen3', 'Psychic': 'psychic-gen3', 'Channeler': 'channeler-gen3', 'Bird Keeper': 'birdkeeper-gen3',
+  'Juggler': 'juggler-gen3', 'Cool Trainer': 'acetrainer-gen3', 'Rocker': 'rocker-gen3', 'Burglar': 'burglar-gen3',
+  'Scientist': 'scientist-gen3',
+  'Brock': 'brock-gen3', 'Misty': 'misty-gen3', 'Lt. Surge': 'ltsurge-gen3', 'Erika': 'erika-gen3', 'Koga': 'koga-gen3',
+  'Sabrina': 'sabrina-gen3', 'Blaine': 'blaine-gen3', 'Giovanni': 'giovanni-gen3', 'Lorelei': 'lorelei-gen3',
+  'Bruno': 'bruno-gen3', 'Agatha': 'agatha-gen3', 'Lance': 'lance-gen3', 'Blue': 'blue-gen3',
+};
+function trainerSpriteUrl(key) {
+  const f = TRAINER_SPRITES[key];
+  return f ? `https://play.pokemonshowdown.com/sprites/trainers/${f}.png` : null;
+}

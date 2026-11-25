@@ -4,7 +4,8 @@
 //   { t: 'hp', side, hp }         animate a side's HP bar to this value
 //   { t: 'send', side, mon }      a new Pokémon comes out
 //   { t: 'faint', side }          the active Pokémon faints
-//   { t: 'hit', side } / { t: 'attack', side }   animation cues
+//   { t: 'attack', side, move } / { t: 'hit', side, eff, crit, move }   animation cues
+//   { t: 'stat', side, up } / { t: 'statusfx', side, s } / { t: 'recall', side }
 //   { t: 'refresh' }              re-read level/status/xp from the live Pokémon
 // Actions: {type:'move', idx} (idx -1 = Struggle), {type:'switch', idx}, {type:'item', item, target},
 //          {type:'ball', item}, {type:'run'}
@@ -95,6 +96,7 @@ class Battle {
       this.useItem(action.item, action.target);
     } else if (action.type === 'switch') {
       this.msg(`${monName(this.active('p'))}, come back!`);
+      this.push({ t: 'recall', side: 'p' });
       this.switchIn('p', action.idx);
     }
 
@@ -206,7 +208,9 @@ class Battle {
     this.bag[itemId]--;
     const target = this.active('e');
     this.msg(`You threw a ${item.name}!`);
-    if (tryCatch(target, item.ball)) {
+    const caught = tryCatch(target, item.ball);
+    this.push({ t: 'catch', caught, shakes: caught ? 3 : RNG.int(0, 2) });
+    if (caught) {
       this.msg(`Gotcha! ${monName(target)} was caught!`);
       this.end('caught');
       return true;
@@ -265,7 +269,7 @@ class Battle {
       slot.pp = Math.max(0, slot.pp - 1);
     }
     this.msg(`${this.label(side)} used ${move.name}!`);
-    this.push({ t: 'attack', side });
+    this.push({ t: 'attack', side, move: move.id });
 
     if (move.special === 'splash') { this.msg('But nothing happened!'); return; }
     if (move.special === 'haze') {
@@ -296,7 +300,7 @@ class Battle {
     if (eff === 0) { this.msg(`It doesn't affect ${this.label(tSide).replace(/^The/, 'the')}...`); return; }
     const dealt = Math.min(target.hp, dmg);
     target.hp -= dealt;
-    this.push({ t: 'hit', side: tSide });
+    this.push({ t: 'hit', side: tSide, eff, crit, move: move.id });
     this.hpEvent(tSide);
     if (crit) this.msg('A critical hit!');
     if (eff > 1) this.msg("It's super effective!");
@@ -343,6 +347,7 @@ class Battle {
       return;
     }
     mon.status = s;
+    this.push({ t: 'statusfx', side, s });
     if (s === 'slp') mon.slp = RNG.int(1, 3) + 1;
     const text = { brn: 'was burned', psn: 'was poisoned', par: 'is paralyzed! It may be unable to move', slp: 'fell asleep', frz: 'was frozen solid' }[s];
     this.msg(`${this.label(side)} ${text}!`);
@@ -355,6 +360,7 @@ class Battle {
       const before = st[k];
       st[k] = Math.max(-6, Math.min(6, st[k] + d));
       const name = STAT_NAMES[k];
+      if (st[k] !== before) this.push({ t: 'stat', side, up: d > 0 });
       if (st[k] === before) this.msg(`${this.label(side)}'s ${name} won't go any ${d > 0 ? 'higher' : 'lower'}!`);
       else if (d >= 2) this.msg(`${this.label(side)}'s ${name} sharply rose!`);
       else if (d > 0) this.msg(`${this.label(side)}'s ${name} rose!`);
